@@ -1,0 +1,9 @@
+{
+  "name": "pathe-doomsday-monitor",
+  "version": "1.0.0",
+  "main": "monitor.js",
+  "dependencies": {
+    "@upstash/redis": "^1.34.0",
+    "playwright": "^1.48.0"
+  }
+}
