@@ -1,0 +1,24 @@
+name: Surveillance Billets Doomsday
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'   # Toutes les 15 minutes (UTC)
+  workflow_dispatch:          # Pour tester manuellement
+
+jobs:
+  verifier:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium[reference:3]
+      - name: Exécuter le script
+        env:
+          UPSTASH_URL: ${{ secrets.UPSTASH_URL }}
+          UPSTASH_TOKEN: ${{ secrets.UPSTASH_TOKEN }}
+          TELEGRAM_USER: ${{ secrets.TELEGRAM_USER }}
+        run: node monitor.js
